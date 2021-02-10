@@ -14,16 +14,17 @@ DBPASS=root
 
 
 #try install tools
-deps="make flex g++ clang libmysql++-dev php7.0 apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-mbstring php7.0-gd php7.0-cli php-xml mono-mcs subversion libexplain-dev"
-apt-get update
-apt-get -y install $deps
-apt-get purge -y --auto-remove $buildDeps
-apt-get clean
+#deps="make flex g++ clang libmysql++-dev php7.0 apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-mbstring php7.0-gd php7.0-cli php-xml mono-mcs subversion libexplain-dev"
+deps="make flex g++ libmysql++-dev php7.4 apache2 libapache2-mod-php7.4 php7.4-mysql php7.4-mbstring php7.4-gd php7.4-cli php-xml mono-mcs subversion libexplain-dev"
+apt update
+apt -y install $deps
+#apt purge -y --auto-remove $buildDeps
+apt clean
 
-/etc/init.d/mysql start
+#/etc/init.d/mysql start
 
 #set up database
-mysql -uroot -proot < db.sql
+#mysql -uroot -proot < db.sql
 
 #create user and homedir
 /usr/sbin/useradd -m -u 1536 judge
@@ -58,7 +59,7 @@ cp java0.policy  judge.conf /home/judge/etc
 chown -R judge /home/judge
 chgrp -R $APACHEUSER /home/judge/data
 chgrp -R root /home/judge/etc /home/judge/run?
-chmod 775 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
+chmod 770 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
 
 #boot up judged
 cp judged /etc/init.d/judged
