@@ -42,62 +42,37 @@
 
 # 部署指南
 
-## 使用Docker（推荐）
-
-### 获取镜像
-
-#### 自行build
-
-在仓库根目录下：
-
-```bash
-docker build -t hznuoj:latest -f docker/Dockerfile ./
-```
- 
-等待build完成即可。
-
-完成后`docker image ls`，若有看到hznuoj的镜像即为成功。
-
-#### 从Docker Hub下载
-
-如果你实在懒得build，也可以从Docker Hub下载。
-
-HZNUOJ的Docker Hub主页：https://hub.docker.com/r/wlx65003/hznuoj ，会持续从master分支构建最新的镜像。
-
-使用docker pull下载即可，由于HZNUOJ的Judger依赖较多，所以镜像很大，约1.2G，请耐心等待，或者自行寻找科学上网方式。最好还是自己build。
-
-```bash
-docker pull wlx65003/hznuoj
-```
-
-### 启动容器
-
-```
-docker run -it --rm -p 90:80 --privileged hznuoj:latest
-```
-
-其中`-p 90:80`表示把容器的80端口映射到宿主机的90端口，可自行修改，可以直接改成http默认的80端口以省去网址里的端口号。
-
-`--rm` 表示运行一次就删除容器，如果你想长期运行，当虚拟机用，需要去掉。
-
-`--privileged` 不能省略，否则判题机会权限不足，判题功能无法正常运作。
-
-然后访问localhost:90即可。
-
-
 ## 使用源码
 
-0. HZNUOJ目前只在Ubuntu16.04上跑过，在更高版本下判题机可能无法正常运行。
+0. 此版本HZNUOJ目前在Ubuntu20.04.1上跑过，可以正常运行。
 
 1. 下载源码
-   `git clone https://github.com/wlx65003/HZNUOJ.git`
-   或者直接访问`https://github.com/wlx65003/HZNUOJ` 下载zip包
+   `git clone https://github.com/tiger2010/HZNUOJ.git`
+   或者直接访问`https://github.com/tiger2010/HZNUOJ` 下载zip包
 
-2. 若已安装mysql，请修改`intall.sh` `judge.conf` `/web/OJ/include/db_info.inc.php` 中的相应账户密码信息(默认为root/root)。若还未安装，请确保接下来安装mysql的过程中将用户名和密码都设成root。
+2. 若已安装mysql，请修改`intall.sh` `judge.conf` `/web/OJ/include/static.php` 中的相应账户密码信息(默认为root/root)。若还未安装，请确保接下来安装mysql的过程中将用户名和密码都设成root。
 
 3. 以root权限运行`judger/install/install.sh` , 请确保在目录 `judger/install/` 下
 
-4. 安装完成后访问localhost即可。
+	本地登录或者ssh远程登录Ubuntu系统后，命令行下按顺序执行以下指令：
+   ```bash
+   admin@ubuntu16:~$ cd HZNUOJ/judger/install
+   admin@ubuntu16:~/HZNUOJ/judger/install$ sudo bash install.sh
+   ```
+
+4. 安装完成后访问localhost、服务器IP或相应域名即可。
+
+## 原理
+
+系统分为后台的Core(判题机)和前台的web(网站)两大部分。两个部分相对独立，通过数据库关联。判题机通过轮询数据库提取判题队列，生成判题信息回写数据库，web部分读取数据库显示在网页上。
+
+若发现提交代码后无法判题，一直显示pending或者等待，请尝试服务器中运行以下命令重启判题机进程
+```bash
+admin@ubuntu16:~$ sudo pkill -9 judged && sudo judged && ps -A | grep judged
+若出现类似"xxxx ?        00:00:00 judged"的字样，说明进程重启成功
+```
+
+更多原理和说明可参考[hustoj文档大全.pdf](https://github.com/zhblue/hustoj/wiki/hustoj文档大全.pdf)及[HZNUOJ常见问题列表](wiki/maintainer-manual.md)
 
 # 使用教程
 

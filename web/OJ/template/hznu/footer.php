@@ -11,7 +11,7 @@
 
 <footer class="blog-footer">
   <hr />
-  <a href="https://github.com/lixin-wei/HZNUOJ" target="_blank">HZNUOJ</a> is based on <a href="https://github.com/zhblue/hustoj" target="_blank">HUSTOJ</a><br />
+  QSZXOJ is based on <a href="https://github.com/wlx65003/HZNUOJ" target="_blank">HZNUOJ</a><br />
   <div>
   <span>-</span>
   <a href='/OJ/setlang.php?lang=en'>English</a>
