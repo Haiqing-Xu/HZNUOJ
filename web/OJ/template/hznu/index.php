@@ -38,7 +38,8 @@ require_once('./include/db_info.inc.php');
   </div>
   <div class="am-g ill" style="height: 30px;"></div>
   <div class='am-g'>
-    <!-- 公告模块 start -->
+
+<!-- 公告模块 start -->
     <div class="am-u-md-6">
       <div class="am-panel am-panel-primary" id="accordion0">
         <div class="am-panel-hd" class="am-panel-title"><?php echo $MSG_NEWS ?></div>
@@ -48,7 +49,6 @@ require_once('./include/db_info.inc.php');
                 <?php
                 $n = count($news_title);
                 if ($n) { // 有公告的话
-                    $firstNews="news-".$news_id[0];
                     for ($i=0; $i<$n; ++$i) {
                         $nid=$news_id[$i];
                         if ($news_importance[$i] == 10) echo "<div class='am-panel am-panel-danger'>";
@@ -100,7 +100,7 @@ HTML;
 
 <script type="text/javascript">
     $('div.link').click(function(){
-        window.open('http://www.pixiv.net/member_illust.php?mode=medium&illust_id=13212258');
+        window.open('');
         //window.location.href="http://pixiv.net/member.php?id=430651";
     });
 </script>
