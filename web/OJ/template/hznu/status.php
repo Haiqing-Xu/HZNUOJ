@@ -136,77 +136,59 @@ function generate_url($data){
       </div>
     </div>
       <!-- 搜索框 end -->
- <!-- 页标签 start -->
-  <div class="am-g">
-    <ul class="am-pagination am-text-center">
-        <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
+
+<!-- 页标签 start -->
+<div class="am-g">
+  <ul class="am-pagination am-text-center">
+    <!--    <?php $link = generate_url(Array("page"=>"1"))?>
+        <li><a href="<?php echo $link ?>">Top</a></li> -->
+    <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
       <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
+    <?php
+        //分页 modified by XuHaiqing @2021.02.15
+        $page_size=10;
+        $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
+        $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
 
-<?php
-  //分页  modified by XuHaiqing @2021.02.12
+        if ($page_start>1){
+          $link = generate_url(Array("page"=>"1"));
+          echo "<li><a href=\"$link\">1</a></li>";
+        echo "&nbsp;...&nbsp;";}
 
-  if(intval($view_total_page)<=9){
-    $start_num=1;
-    $stop_num=intval($view_total_page);
-  }
-  else{
-    if($page-4>0){
-      $start_num=$page-4;
-      if($start_num+8<intval($view_total_page)){
-        $stop_num=$start_num+8;
-      }
-      else{
-        $start_num=intval($view_total_page)-8;
-        $stop_num=intval($view_total_page);
-      }
-    }
-    else{
-      $start_num=1;
-      $stop_num=$start_num+8;
-    }
-  }
-
-  if($start_num>5){
-    for($i=1;$i<=3;$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-    echo "&nbsp;...&nbsp;";
-  }
-  else{
-    for($i=1;$i<=$start_num-1;$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-  }
-  
-  for($i=$start_num;$i<=$stop_num;$i++){
-    $link=generate_url(Array("page"=>"$i"));
-    if($page==$i)
-      echo "<li class='am-active'><a href=\"$link\">{$i}</a></li>";
-    else
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-  }
-
-  if($stop_num<intval($view_total_page)-4){
-    echo "&nbsp;...&nbsp;";
-    for($i=intval($view_total_page)-2;$i<=intval($view_total_page);$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-  }
-  else{
-    for($i=$stop_num+1;$i<=intval($view_total_page);$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-  }
-?>
+        for ($i=$page_start;$i<$page;$i++){
+          $link=generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+        }
+        $link=generate_url(Array("page"=>"$page"));
+        echo "<li class='am-active'><a href=\"$link\">{$page}</a></li>";
+        for ($i=$page+1;$i<=$page_end;$i++){
+          $link=generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+        }
+        if ($i <= $view_total_page){
+          $link=generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+        }
+          
+        if ($i<$view_total_page-2){
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "&nbsp;...&nbsp;";
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+      elseif($i==$view_total_page-2){
+        $i=$view_total_page-1;
+      $link = generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+    ?>
         <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
       <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
-    </ul>
-  </div>
+  </ul>
+</div>
 <!-- 页标签 end -->
+
 <!-- 数据表格显示 start -->
     <div class="am-avg-md-1 well">
       <table class="am-table am-table-hover  am-table-striped">
@@ -243,76 +225,57 @@ function generate_url($data){
       </table>
     </div>
     <!-- 数据表格显示 end -->
+
 <!-- 页标签 start -->
-  <div class="am-g">
-    <ul class="am-pagination am-text-center">
-        <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
+<div class="am-g">
+  <ul class="am-pagination am-text-center">
+    <!--    <?php $link = generate_url(Array("page"=>"1"))?>
+        <li><a href="<?php echo $link ?>">Top</a></li> -->
+    <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
       <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
+    <?php
+        //分页 modified by XuHaiqing @2021.02.12
+        $page_size=10;
+        $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
+        $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
 
-<?php
-   //分页  modified by XuHaiqing @2021.02.12
+        if ($page_start>1){
+          $link = generate_url(Array("page"=>"1"));
+          echo "<li><a href=\"$link\">1</a></li>";
+        echo "&nbsp;...&nbsp;";}
 
-  if(intval($view_total_page)<=9){
-    $start_num=1;
-    $stop_num=intval($view_total_page);
-  }
-  else{
-    if($page-4>0){
-      $start_num=$page-4;
-      if($start_num+8<intval($view_total_page)){
-        $stop_num=$start_num+8;
-      }
-      else{
-        $start_num=intval($view_total_page)-8;
-        $stop_num=intval($view_total_page);
-      }
-    }
-    else{
-      $start_num=1;
-      $stop_num=$start_num+8;
-    }
-  }
-
-  if($start_num>5){
-    for($i=1;$i<=3;$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-    echo "&nbsp;...&nbsp;";
-  }
-  else{
-    for($i=1;$i<=$start_num-1;$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-  }
-  
-  for($i=$start_num;$i<=$stop_num;$i++){
-    $link=generate_url(Array("page"=>"$i"));
-    if($page==$i)
-      echo "<li class='am-active'><a href=\"$link\">{$i}</a></li>";
-    else
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-  }
-
-  if($stop_num<intval($view_total_page)-4){
-    echo "&nbsp;...&nbsp;";
-    for($i=intval($view_total_page)-2;$i<=intval($view_total_page);$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-  }
-  else{
-    for($i=$stop_num+1;$i<=intval($view_total_page);$i++){
-      $link=generate_url(Array("page"=>"$i"));
-      echo "<li><a href=\"$link\">{$i}</a></li>";
-    }
-  }
-?>
+        for ($i=$page_start;$i<$page;$i++){
+          $link=generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+        }
+        $link=generate_url(Array("page"=>"$page"));
+        echo "<li class='am-active'><a href=\"$link\">{$page}</a></li>";
+        for ($i=$page+1;$i<=$page_end;$i++){
+          $link=generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+        }
+        if ($i <= $view_total_page){
+          $link=generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+        }
+          
+        if ($i<$view_total_page-2){
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "&nbsp;...&nbsp;";
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+      elseif($i==$view_total_page-2){
+        $i=$view_total_page-1;
+      $link = generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+    ?>
         <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
       <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
-    </ul>
-  </div>
+  </ul>
+</div>
 <!-- 页标签 end -->
   </div>
 <?php include "footer.php" ?>
