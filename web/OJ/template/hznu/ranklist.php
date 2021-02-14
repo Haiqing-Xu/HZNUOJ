@@ -89,18 +89,25 @@ function generate_url($data){
         <li><a style="color: grey; text-align: center;"><?php echo $MSG_RANKTIPS ?></a></li>
     </ul>
 </div>
+
 <!-- 页标签 start -->
 <div class="am-g">
   <ul class="am-pagination am-text-center">
-        <?php $link = generate_url(Array("page"=>"1"))?>
-        <li><a href="<?php echo $link ?>">Top</a></li>
+    <!--    <?php $link = generate_url(Array("page"=>"1"))?>
+        <li><a href="<?php echo $link ?>">Top</a></li> -->
     <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
       <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
-        <?php
-        //分页
+    <?php
+       //分页 modified by XuHaiqing @2021.02.12
         $page_size=10;
         $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
         $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
+
+        if ($page_start>1){
+        	$link = generate_url(Array("page"=>"1"));
+        	echo "<li><a href=\"$link\">1</a></li>";
+    		echo "&nbsp;...&nbsp;";}
+
         for ($i=$page_start;$i<$page;$i++){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
@@ -115,12 +122,26 @@ function generate_url($data){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
         }
-      ?>
+        	
+        if ($i<$view_total_page-2){
+        	$link = generate_url(Array("page"=>"$view_total_page"));
+        	echo "&nbsp;...&nbsp;";
+        	echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+    		}
+    	elseif($i==$view_total_page-2){
+    		$i=$view_total_page-1;
+			$link = generate_url(Array("page"=>"$i"));
+        	echo "<li><a href=\"$link\">{$i}</a></li>";
+        	$link = generate_url(Array("page"=>"$view_total_page"));
+        	echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+    		}
+    ?>
         <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
       <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
   </ul>
 </div>
-<!-- 页标签 end --> 
+<!-- 页标签 end -->
+
   <div class="am-avg-md-1 well" style="font-size: normal;">
   <style type="text/css" media="screen">
     #ac,#level,#passrate {
@@ -165,15 +186,21 @@ function generate_url($data){
 <!-- 页标签 start -->
 <div class="am-g">
   <ul class="am-pagination am-text-center">
-        <?php $link = generate_url(Array("page"=>"1"))?>
-        <li><a href="<?php echo $link ?>">Top</a></li>
+    <!--    <?php $link = generate_url(Array("page"=>"1"))?>
+        <li><a href="<?php echo $link ?>">Top</a></li> -->
     <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
       <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
-        <?php
-        //分页
+    <?php
+        //分页 modified by XuHaiqing @2021.02.12
         $page_size=10;
         $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
         $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
+
+        if ($page_start>1){
+        	$link = generate_url(Array("page"=>"1"));
+        	echo "<li><a href=\"$link\">1</a></li>";
+    		echo "&nbsp;...&nbsp;";}
+
         for ($i=$page_start;$i<$page;$i++){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
@@ -188,7 +215,20 @@ function generate_url($data){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
         }
-      ?>
+        	
+        if ($i<$view_total_page-2){
+        	$link = generate_url(Array("page"=>"$view_total_page"));
+        	echo "&nbsp;...&nbsp;";
+        	echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+    		}
+    	elseif($i==$view_total_page-2){
+    		$i=$view_total_page-1;
+			$link = generate_url(Array("page"=>"$i"));
+        	echo "<li><a href=\"$link\">{$i}</a></li>";
+        	$link = generate_url(Array("page"=>"$view_total_page"));
+        	echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+    		}
+    ?>
         <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
       <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
   </ul>
