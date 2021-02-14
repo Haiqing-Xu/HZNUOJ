@@ -44,11 +44,12 @@ if (isset($_POST['user_id'])) {
         $smtpemailto = $row['email'];//发送给谁
         $smtpuser = $SMTP_USER;//SMTP服务器的用户帐号
         $smtppass = $SMTP_PASS;//SMTP服务器的用户密码
-        $mailtitle = $OJ_NAME."登录密码重置--系统邮件请勿回复";//邮件主题
-        $mailcontent = "$lost_user_id:\n您好！\n您在".$OJ_NAME."系统选择了密码重置服务,为了验证您的身份,请将下面16位".$MSG_Securekey."输入密码重置页面以确认身份:\n";
-        $mailcontent .= "┌──────────────────┐\n	".$_SESSION['lost_key']."\n└──────────────────┘\n\n";
-        $mailcontent .= "这个".$MSG_Securekey."也将成为您重置成功后的新密码！\n\n".$OJ_NAME."\n".date("Y-m-d H:i",time());//邮件内容
-        $mailtype = "TXT";//邮件格式（HTML/TXT）,TXT为文本邮件
+        $mailtitle = $OJ_NAME." 登录密码重置--系统邮件请勿回复";//邮件主题
+        $mailcontent = "$lost_user_id:<br>您好！<br>您在".$OJ_NAME."系统选择了密码重置服务,为了验证您的身份,请将下面16位".$MSG_Securekey."输入密码重置页面以确认身份:<br><br>";
+        $mailcontent .= "<p align='center'>┌──────────────────┐<br>".$_SESSION['lost_key']."<br>└──────────────────┘</p><br><br>";
+        
+        $mailcontent .= "这个".$MSG_Securekey."也将成为您重置成功后的新密码！<br><br>".$OJ_NAME."<br>".date("Y-m-d H:i",time());//邮件内容
+        $mailtype = "HTML";//邮件格式（HTML/TXT）,TXT为文本邮件
         //************************ 配置信息 ****************************
         $smtp = new smtp($smtpserver,$smtpserverport,true,$smtpuser,$smtppass);//这里面的一个true是表示使用身份验证,否则不使用身份验证.
         $smtp->debug =false;//是否显示发送的调试信息
