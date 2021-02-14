@@ -11,6 +11,7 @@
 
 <?php $title=$MSG_MODIFY_USER;?>
 <?php require_once("header.php") ?>
+<link rel="stylesheet" href="./plugins/emailAutoComplete/emailAutoComplete.css"/>
 <div class="am-container">
   <h1 style="margin-top:40px; margin-bottom: 0px;"><?php echo $MSG_MODIFY_USER ?></h1>
   <hr>
@@ -25,7 +26,7 @@
     <div class="am-form-group">
       <label class="am-u-sm-2 am-u-sm-offset-2 am-form-label"><?php echo $MSG_NICK ?>:</label>
       <div class="am-u-sm-8">
-        <input type="text" <?php if(!$MODIFY_NICK){if(htmlentities($row->class)=="Teacher" || $_SESSION['user_id']=="admin" ){echo '';}else{echo 'readonly="true"';}} ?> style="width:340px;" maxlength="20" placeholder="限20个以内的汉字、字母、数字或下划线" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]{1,20}$" value="<?php echo htmlentities($row->nick)?>" name="nick">
+        <input type="text" style="width:340px;" maxlength="20" placeholder="限20个以内的汉字、字母、数字或下划线" pattern="^[\u4e00-\u9fa5_a-zA-Z0-9]{1,20}$" value="<?php echo htmlentities($row->nick)?>" name="nick">
       </div>
     </div> 
     <div class="am-form-group">
@@ -58,8 +59,8 @@
       <label class="am-u-sm-2 am-u-sm-offset-2 am-form-label">
       <font color='red'><b>*</b></font><?php echo $MSG_EMAIL ?>:
       </label>
-      <div class="am-u-sm-8">
-        <input type="email" style="width:340px;" value="<?php echo htmlentities($row->email)?>" name="email" required>
+      <div class="am-u-sm-8 parentCls">
+        <input class="inputElem" type="email" style="width:340px;" value="<?php echo htmlentities($row->email)?>" name="email" autocomplete="off" required>
       </div>
     </div>
     <?php if(isset($OJ_NEED_CLASSMODE)&&$OJ_NEED_CLASSMODE){ ?>
@@ -100,7 +101,5 @@
     </div>
   </form>
 </div>
-
-
-
 <?php require_once("footer.php") ?>
+<script type="text/javascript" src="./plugins/emailAutoComplete/emailAutoComplete.js"></script>

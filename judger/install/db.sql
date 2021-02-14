@@ -15,10 +15,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `compileinfo`
---
-CREATE Database jol;
+CREATE Database jol CHARACTER SET utf8 COLLATE utf8_general_ci;
 use jol;
 
 DROP TABLE IF EXISTS `contest_discuss`;
@@ -32,19 +29,22 @@ CREATE TABLE `contest_discuss` (
   `in_date` datetime DEFAULT NULL,
   `reply_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `printer_code`;
 CREATE TABLE `printer_code` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` char(20) NOT NULL,
+  `user_id` char(48) NOT NULL,
   `contest_id` int(11) NOT NULL,
   `code` text NOT NULL,
   `in_date` datetime DEFAULT NULL,
   `status` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Table structure for table `compileinfo`
+--
 DROP TABLE IF EXISTS `compileinfo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -61,6 +61,8 @@ CREATE TABLE `compileinfo` (
 
 LOCK TABLES `compileinfo` WRITE;
 /*!40000 ALTER TABLE `compileinfo` DISABLE KEYS */;
+INSERT INTO `compileinfo` (`solution_id`, `error`) VALUES
+(1004, 'Main.c:1:10: fatal error: iostream: No such file or directory\n #include <iostream>\r\n          ^~~~~~~~~~\ncompilation terminated.\n');
 /*!40000 ALTER TABLE `compileinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,11 +92,12 @@ CREATE TABLE `contest` (
   `first_prize` int(11) DEFAULT '0',
   `second_prize` int(11) DEFAULT '0',
   `third_prize` int(11) DEFAULT '0',
-  `practice` tinyint(4) DEFAULT NULL,
+  `practice` tinyint(4) DEFAULT '0',
+  `isTop` tinyint(1) NOT NULL DEFAULT '0';
   PRIMARY KEY (`contest_id`),
   KEY `contest_id` (`contest_id`,`defunct`,`private`,`defunct_TA`,`open_source`) USING BTREE,
   KEY `running_contest` (`start_time`,`end_time`,`practice`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -103,6 +106,8 @@ CREATE TABLE `contest` (
 
 LOCK TABLES `contest` WRITE;
 /*!40000 ALTER TABLE `contest` DISABLE KEYS */;
+INSERT INTO `contest` (`contest_id`, `title`, `start_time`, `end_time`, `defunct`, `description`, `private`, `langmask`, `password`, `user_id`, `user_limit`, `defunct_TA`, `open_source`, `lock_time`, `unlock`, `first_prize`, `second_prize`, `third_prize`, `practice`) VALUES
+(1000, '竞赛测试数据', '2020-06-28 09:00:00', '2020-06-28 21:00:00', 'N', '', 0, 67, '', 'admin', 'N', 'N', 'N', 0, 1, 1, 3, 5, 0);
 /*!40000 ALTER TABLE `contest` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +124,7 @@ CREATE TABLE `contest_excluded_user` (
   `user_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`index`),
   KEY `contest_id` (`contest_id`,`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,7 +153,7 @@ CREATE TABLE `contest_problem` (
   PRIMARY KEY (`index`),
   KEY `contest_id` (`contest_id`) USING BTREE,
   KEY `problem_id` (`problem_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,6 +162,8 @@ CREATE TABLE `contest_problem` (
 
 LOCK TABLES `contest_problem` WRITE;
 /*!40000 ALTER TABLE `contest_problem` DISABLE KEYS */;
+INSERT INTO `contest_problem` (`index`, `problem_id`, `contest_id`, `title`, `num`, `score`) VALUES
+(1, 1000, 1000, '', 0, 100);
 /*!40000 ALTER TABLE `contest_problem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -195,7 +202,7 @@ CREATE TABLE `faq_codes` (
   `language_show` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   `code` varchar(10000) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +226,7 @@ CREATE TABLE `faqs` (
   `index` int(11) NOT NULL AUTO_INCREMENT,
   `content` text,
   PRIMARY KEY (`index`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,14 +248,14 @@ DROP TABLE IF EXISTS `hit_log`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `hit_log` (
   `index` int(11) NOT NULL AUTO_INCREMENT,
-  `ip` varchar(20) DEFAULT NULL,
+  `ip` varchar(46) DEFAULT NULL,
   `path` text,
   `time` datetime DEFAULT NULL,
   `user_id` text,
   PRIMARY KEY (`index`),
   KEY `time` (`time`),
   KEY `ip` (`ip`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,11 +278,11 @@ CREATE TABLE `loginlog` (
   `index` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(20) NOT NULL DEFAULT '',
   `password` varchar(40) DEFAULT NULL,
-  `ip` varchar(100) DEFAULT NULL,
+  `ip` varchar(46) DEFAULT NULL,
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
   KEY `user_time_index` (`user_id`,`time`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +291,6 @@ CREATE TABLE `loginlog` (
 
 LOCK TABLES `loginlog` WRITE;
 /*!40000 ALTER TABLE `loginlog` DISABLE KEYS */;
-INSERT INTO `loginlog` VALUES (1,'admin','No Saved','127.0.0.1','2019-03-12 17:29:20'),(2,'admin','No Saved','127.0.0.1','2019-03-12 17:29:39'),(3,'admin','No Saved','127.0.0.1','2019-03-12 17:33:27'),(4,'admin','No Saved','127.0.0.1','2019-03-12 17:38:04'),(5,'admin','No Saved','127.0.0.1','2019-03-12 17:39:13'),(6,'admin','No Saved','127.0.0.1','2019-03-13 15:32:27');
 /*!40000 ALTER TABLE `loginlog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -388,7 +394,7 @@ DROP TABLE IF EXISTS `online`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `online` (
   `hash` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `ip` varchar(20) CHARACTER SET utf8 NOT NULL DEFAULT '',
+  `ip` varchar(46) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `ua` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `refer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `lastmove` int(10) NOT NULL,
@@ -417,7 +423,7 @@ DROP TABLE IF EXISTS `privilege`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `privilege` (
   `index` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` char(20) NOT NULL DEFAULT '',
+  `user_id` char(48) NOT NULL DEFAULT '',
   `rightstr` char(30) NOT NULL DEFAULT '',
   PRIMARY KEY (`index`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -463,7 +469,7 @@ CREATE TABLE `privilege_distribution` (
   `upload_files` tinyint(4) DEFAULT NULL,
   `watch_solution_video` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`group_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -487,7 +493,7 @@ CREATE TABLE `privilege_groups` (
   `group_order` int(11) NOT NULL DEFAULT '0',
   `group_name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`group_order`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -534,7 +540,6 @@ CREATE TABLE `problem` (
   `problemset` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`problem_id`),
   UNIQUE KEY `problem_id` (`problem_id`) USING BTREE,
-  KEY `spj` (`problemset`,`defunct`,`spj`,`problem_id`) USING BTREE,
   KEY `score` (`score`,`accepted`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -545,7 +550,8 @@ CREATE TABLE `problem` (
 
 LOCK TABLES `problem` WRITE;
 /*!40000 ALTER TABLE `problem` DISABLE KEYS */;
-INSERT INTO `problem` VALUES (1000,'A+B','1','1','1',NULL,NULL,'0','','','','2019-03-13 16:10:36',1,256,'Y',1,1,0,NULL,100.00,NULL,NULL,NULL,'default');
+INSERT INTO `problem` (`problem_id`, `title`, `description`, `input`, `output`, `sample_input`, `sample_output`, `spj`, `hint`, `author`, `source`, `in_date`, `time_limit`, `memory_limit`, `defunct`, `accepted`, `submit`, `solved_user`, `submit_user`, `score`, `tag1`, `tag2`, `tag3`, `problemset`) VALUES
+(1000, 'A+B', '<p>\n	Calculate a+b\n</p>', '<p>\n	Two integer a,b (0&lt;=a,b&lt;=10)\n</p>', '<p>\n	Output a+b\n</p>', NULL, NULL, '0', '<p>\n	Q: Where are the input and the output?  A: Your program shall always <span>read input from stdin (Standard Input) and write output to stdout (Standard Output)</span>. For example, you can use \"scanf\" in C or \"cin\" in C++ to read from stdin, and use \"printf\" in C or \"cout\" in C++ to write to stdout.  You <span>shall not output any extra data</span> to standard output other than that required by the problem, otherwise you will get a \"Wrong Answer\".  User programs are not allowed to open and read from/write to files. You will get a \"Runtime Error\" or a \"Wrong Answer\" if you try to do so.   Here is a sample solution for problem 1000 using C++/G++:\n</p>\n<pre>#include &lt;iostream&gt;\nusing namespace std;\nint main(){\n    int a, b, sum;\n    cin &gt;&gt; a &gt;&gt; b;\n	sum = a + b;\n    cout &lt;&lt; sum;\n    return 0;\n}</pre>\n<p>\n	It\"s important that the return type of main() must be int when you use G++/GCC,or you may get compile error.  Here is a sample solution for problem 1000 using C/GCC:\n</p>\n<pre>#include &lt;stdio.h&gt;\nint main()\n{\n    int a, b, sum;\n    scanf(\"%d%d\", &amp;a, &amp;b);\n	sum = a + b;\n    printf(\"%d\\n\", sum);\n    return 0;\n}</pre>\n<p>\n	Here is a sample solution for problem 1000 using PASCAL:\n</p>\n<pre>program p1000(Input,Output); \nvar \n  a,b:Integer; \nbegin \n   Readln(a,b); \n   Writeln(a+b); \nend.</pre>\n<p>\n	Here is a sample solution for problem 1000 using JAVA:  Now java compiler is jdk 1.5, next is program for 1000\n</p>\n<pre>import java.io.*;\nimport java.util.*;\npublic class Main\n{\n    public static void main(String args[]) throws Exception\n    {\n        Scanner cin=new Scanner(System.in);\n        int a=cin.nextInt();int b=cin.nextInt();\n        System.out.println(a+b);\n    }\n}</pre>\n<p>\n	Old program for jdk 1.4\n</p>\n<pre>import java.io.*;\nimport java.util.*;\npublic class Main\n{\n    public static void main (String args[]) throws Exception\n    {\n        BufferedReader stdin = \n            new BufferedReader(\n                new InputStreamReader(System.in));\n        String line = stdin.readLine();\n        StringTokenizer st = new StringTokenizer(line);\n        int a = Integer.parseInt(st.nextToken());\n        int b = Integer.parseInt(st.nextToken());\n        System.out.println(a+b);\n    }\n}</pre>', '', '基础操作题', '2019-03-13 16:10:36', 1, 256, 'N', 3, 4, 0, NULL, '100.00', NULL, NULL, NULL, 'default');
 /*!40000 ALTER TABLE `problem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -564,7 +570,7 @@ CREATE TABLE `problem_samples` (
   `show_after` int(11) DEFAULT '0',
   PRIMARY KEY (`problem_id`,`sample_id`),
   KEY `problem_id` (`problem_id`,`sample_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -585,11 +591,11 @@ DROP TABLE IF EXISTS `problemset`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `problemset` (
-  `index` int(11) NOT NULL,
+  `index` int(11) NOT NULL AUTO_INCREMENT,
   `set_name` varchar(255) CHARACTER SET utf8 NOT NULL DEFAULT '',
   `set_name_show` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`index`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT AUTO_INCREMENT=2;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -616,7 +622,7 @@ CREATE TABLE `reply` (
   `content` text NOT NULL,
   `topic_id` int(11) NOT NULL,
   `status` int(2) NOT NULL DEFAULT '0',
-  `ip` varchar(30) NOT NULL,
+  `ip` varchar(46) NOT NULL,
   PRIMARY KEY (`rid`),
   KEY `author_id` (`author_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -651,6 +657,8 @@ CREATE TABLE `runtimeinfo` (
 
 LOCK TABLES `runtimeinfo` WRITE;
 /*!40000 ALTER TABLE `runtimeinfo` DISABLE KEYS */;
+INSERT INTO `runtimeinfo` (`solution_id`, `error`) VALUES
+(1005, '========Failed test [test0.out]=========\n=======Diff out 100 lines=====\n1c1\n< 16\n---\n> 3\n\\ No newline at end of file\n==============================\n========Failed test [test1.out]=========\n=======Diff out 100 lines=====\n1c1\n< 15\n---\n> 3\n\\ No newline at end of file\n==============================\n========Failed test [test2.out]=========\n=======Diff out 100 lines=====\n1c1\n< 0\n---\n> 3\n\\ No newline at end of file\n==============================\n');
 /*!40000 ALTER TABLE `runtimeinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -691,7 +699,7 @@ CREATE TABLE `slide` (
   `url` varchar(200) NOT NULL,
   `defunct` char(1) DEFAULT NULL,
   PRIMARY KEY (`img_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -713,19 +721,19 @@ DROP TABLE IF EXISTS `solution`;
 CREATE TABLE `solution` (
   `solution_id` int(11) NOT NULL AUTO_INCREMENT,
   `problem_id` int(11) DEFAULT '0',
-  `user_id` char(20) NOT NULL,
+  `user_id` char(48) NOT NULL,
   `time` int(11) NOT NULL DEFAULT '0',
   `memory` int(11) NOT NULL DEFAULT '0',
   `in_date` datetime NOT NULL,
   `result` smallint(6) NOT NULL DEFAULT '0',
   `language` tinyint(4) NOT NULL DEFAULT '0',
-  `ip` char(15) NOT NULL,
+  `ip` char(46) NOT NULL,
   `contest_id` int(11) DEFAULT NULL,
   `valid` tinyint(4) NOT NULL DEFAULT '1',
   `num` tinyint(4) NOT NULL DEFAULT '-1',
   `code_length` int(11) NOT NULL DEFAULT '0',
   `judgetime` datetime DEFAULT NULL,
-  `pass_rate` decimal(2,2) unsigned NOT NULL DEFAULT '0.00',
+  `pass_rate` decimal(3,2) unsigned NOT NULL DEFAULT '0.00',
   `judger` char(16) NOT NULL DEFAULT 'LOCAL',
   PRIMARY KEY (`solution_id`),
   KEY `pid` (`problem_id`),
@@ -733,7 +741,7 @@ CREATE TABLE `solution` (
   KEY `in_date` (`in_date`) USING BTREE,
   KEY `uid` (`user_id`,`result`) USING BTREE,
   KEY `cid` (`contest_id`,`result`,`num`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=1006 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -742,7 +750,12 @@ CREATE TABLE `solution` (
 
 LOCK TABLES `solution` WRITE;
 /*!40000 ALTER TABLE `solution` DISABLE KEYS */;
-INSERT INTO `solution` VALUES (1,1000,'admin',0,1120,'2019-03-13 16:10:55',4,1,'127.0.0.1',NULL,1,-1,75,'2019-03-13 16:10:56',0.00,'172.17.0.1');
+INSERT INTO `solution` (`solution_id`, `problem_id`, `user_id`, `time`, `memory`, `in_date`, `result`, `language`, `ip`, `contest_id`, `valid`, `num`, `code_length`, `judgetime`, `pass_rate`, `judger`) VALUES
+(1001, 1000, 'admin', 0, 1120, '2019-03-13 16:10:55', 4, 0, '127.0.0.1', NULL, 1, -1, 124, '2019-03-13 16:10:56', '0.00', '172.17.0.1'),
+(1002, 1000, 'admin', 0, 2020, '2019-03-13 16:10:56', 4, 1, '127.0.0.1', NULL, 1, -1, 135, '2019-03-13 16:10:57', '0.00', '172.17.0.1'),
+(1003, 1000, 'admin', 0, 2084, '2020-06-28 09:46:45', 4, 1, '127.0.0.1', 1000, 1, 0, 147, '2020-06-28 09:46:45', '1.00', '172.17.0.1'),
+(1004, 1000, 'admin', 0, 0, '2020-06-28 09:47:08', 11, 0, '127.0.0.1', 1000, 1, 0, 147, '2020-06-28 09:47:09', '0.00', '172.17.0.1'),
+(1005, 1000, 'admin', 0, 2020, '2020-06-28 17:11:11', 6, 1, '127.0.0.1', 1000, 1, 0, 137, '2020-06-28 17:11:13', '0.25', '172.17.0.1');
 /*!40000 ALTER TABLE `solution` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -760,7 +773,7 @@ CREATE TABLE `solution_video_watch_log` (
   `time` datetime DEFAULT NULL,
   PRIMARY KEY (`index`),
   KEY `video_id` (`video_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -792,7 +805,12 @@ CREATE TABLE `source_code` (
 
 LOCK TABLES `source_code` WRITE;
 /*!40000 ALTER TABLE `source_code` DISABLE KEYS */;
-INSERT INTO `source_code` VALUES (1,'#include <stdio.h>\r\nint main(){\r\n    puts(\"3\");\r\n    return 0;\r\n}');
+INSERT INTO `source_code` (`solution_id`, `source`) VALUES
+(1001, '#include <stdio.h>\nvoid main()\n{\n    int a, b, sum;\n    scanf(\"%d%d\", &a, &b);\n    sum = a + b;\n    printf(\"%d\", sum);\n}\n   '),
+(1002, '#include <iostream>\nusing namespace std;\nint main(){\n    int a, b, sum;\n    cin >> a >> b;\n	sum = a + b;\n    cout << sum;\n	return 0;\n}\n'),
+(1003, '#include <iostream>\r\nusing namespace std;\r\nint  main(){\r\n    int a,b;\r\n    cin >> a >> b;\r\n    cout << a+b << endl;\r\n    return 0;\r\n}'),
+(1004, '#include <iostream>\r\nusing namespace std;\r\nint  main(){\r\n    int a,b;\r\n    cin >> a >> b;\r\n    cout << a+b << endl;\r\n    return 0;\r\n}'),
+(1005, '#include <iostream>\r\nusing namespace std;\r\nint  main(){\r\n    int a,b;\r\n    cin >> a >> b;\r\n    cout << 3;\r\n    return 0;\r\n}');
 /*!40000 ALTER TABLE `source_code` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -816,7 +834,12 @@ CREATE TABLE `source_code_user` (
 
 LOCK TABLES `source_code_user` WRITE;
 /*!40000 ALTER TABLE `source_code_user` DISABLE KEYS */;
-INSERT INTO `source_code_user` VALUES (1,'#include <stdio.h>\r\nint main(){\r\n    puts(\"3\");\r\n    return 0;\r\n}');
+INSERT INTO `source_code_user` (`solution_id`, `source`) VALUES
+(1001, '#include <stdio.h>\nvoid main()\n{\n    int a, b, sum;\n    scanf(\"%d%d\", &a, &b);\n    sum = a + b;\n    printf(\"%d\", sum);\n}\n   '),
+(1002, '#include <iostream>\nusing namespace std;\nint main(){\n    int a, b, sum;\n    cin >> a >> b;\n	sum = a + b;\n    cout << sum;\n	return 0;\n}\n'),
+(1003, '#include <iostream>\r\nusing namespace std;\r\nint  main(){\r\n    int a,b;\r\n    cin >> a >> b;\r\n    cout << a+b << endl;\r\n    return 0;\r\n}'),
+(1004, '#include <iostream>\r\nusing namespace std;\r\nint  main(){\r\n    int a,b;\r\n    cin >> a >> b;\r\n    cout << a+b << endl;\r\n    return 0;\r\n}'),
+(1005, '#include <iostream>\r\nusing namespace std;\r\nint  main(){\r\n    int a,b;\r\n    cin >> a >> b;\r\n    cout << 3;\r\n    return 0;\r\n}');
 /*!40000 ALTER TABLE `source_code_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -847,7 +870,7 @@ CREATE TABLE `tag` (
   `user_id` varchar(100) CHARACTER SET utf8 NOT NULL,
   `tag` varchar(100) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`index`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -881,7 +904,7 @@ CREATE TABLE `team` (
   `school` varchar(100) DEFAULT NULL,
   `accesstime` datetime DEFAULT NULL,
   `reg_time` datetime DEFAULT NULL,
-  `ip` varchar(20) DEFAULT NULL,
+  `ip` varchar(46) DEFAULT NULL,
   PRIMARY KEY (`contest_id`,`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -938,7 +961,7 @@ CREATE TABLE `users` (
   `submit` int(11) DEFAULT '0',
   `solved` int(11) DEFAULT '0',
   `defunct` char(1) NOT NULL DEFAULT 'N',
-  `ip` varchar(20) NOT NULL DEFAULT '',
+  `ip` varchar(46) NOT NULL DEFAULT '',
   `accesstime` datetime DEFAULT NULL,
   `volume` int(11) NOT NULL DEFAULT '1',
   `volume_c` int(11) DEFAULT NULL,
@@ -989,7 +1012,7 @@ CREATE TABLE `users_cache` (
   `activity` int(10) unsigned zerofill DEFAULT NULL,
   `total_score` decimal(10,2) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1017,7 +1040,7 @@ CREATE TABLE `users_cache_array` (
   `value_int` int(10) unsigned zerofill NOT NULL,
   `value_double` decimal(10,2) unsigned zerofill DEFAULT NULL,
   PRIMARY KEY (`index`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1029,6 +1052,90 @@ LOCK TABLES `users_cache_array` WRITE;
 /*!40000 ALTER TABLE `users_cache_array` ENABLE KEYS */;
 UNLOCK TABLES;
 
+-- Dump completed on 2019-03-13 17:03:43
+-- ----------------------------
+-- Table structure for `class_list`
+-- ----------------------------
+DROP TABLE IF EXISTS `class_list`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `class_list` (
+  `class_name` varchar(100) NOT NULL,
+  `enrollment_year` smallint(4) NOT NULL,
+  PRIMARY KEY (`class_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+-- ----------------------------
+-- Dumping data for table class_list
+-- ----------------------------
+LOCK TABLES `class_list` WRITE;
+/*!40000 ALTER TABLE `class_list` DISABLE KEYS */;
+INSERT INTO `class_list` VALUES ('其它', '0');
+/*!40000 ALTER TABLE `class_list` ENABLE KEYS */;
+UNLOCK TABLES;
+
+-- ----------------------------
+-- Table structure for `reg_code`
+-- ----------------------------
+DROP TABLE IF EXISTS `reg_code`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reg_code` (
+  `class_name` varchar(100) NOT NULL,
+  `reg_code` varchar(100) NOT NULL,
+  `remain_num` smallint(4) NOT NULL,
+  PRIMARY KEY (`class_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+-- ----------------------------
+-- Dumping data for table reg_code
+-- ----------------------------
+LOCK TABLES `reg_code` WRITE;
+/*!40000 ALTER TABLE `reg_code` DISABLE KEYS */;
+INSERT INTO `reg_code` VALUES ('其它', '', '0');
+/*!40000 ALTER TABLE `reg_code` ENABLE KEYS */;
+UNLOCK TABLES;
+
+DROP TABLE IF EXISTS `course`;
+CREATE TABLE `course` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `section` varchar(255) NOT NULL,
+  `order` int(11) NOT NULL DEFAULT '10000',
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `isProblem` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+-- ----------------------------
+-- Records of course
+-- ----------------------------
+INSERT INTO `course` VALUES ('1', '入门篇', '0', '0', '0');
+INSERT INTO `course` VALUES ('2', '九阴真经', '1', '0', '0');
+INSERT INTO `course` VALUES ('3', '九阳神功', '2', '0', '0');
+INSERT INTO `course` VALUES ('4', '葵花宝典', '3', '0', '0');
+INSERT INTO `course` VALUES ('5', '辟邪剑谱', '4', '0', '0');
+INSERT INTO `course` VALUES ('6', '平台操作题', '0', '1', '0');
+INSERT INTO `course` VALUES ('7', '输出题入门', '1', '1', '0');
+INSERT INTO `course` VALUES ('8', '计算题入门', '2', '1', '0');
+INSERT INTO `course` VALUES ('9', '分支结构入门', '3', '1', '0');
+INSERT INTO `course` VALUES ('10', '循环结构入门', '4', '1', '0');
+INSERT INTO `course` VALUES ('11', '1000', '0', '6', '1');
+
+-- 添加触发器，防止同一用户类似代码提交第二遍时被认定为抄袭
+delimiter //
+drop trigger if exists simfilter//
+create trigger simfilter
+before insert on sim
+for each row
+begin
+ declare new_user_id varchar(64);
+ declare old_user_id varchar(64);
+ select user_id from solution where solution_id=new.s_id into new_user_id;
+ select user_id from solution where solution_id=new.sim_s_id into old_user_id;
+ if old_user_id=new_user_id then
+	set new.s_id=0;
+ end if;
+end;//
+delimiter ;
 --
 -- Final view structure for view `squid`
 --
@@ -1056,31 +1163,3 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-03-13 17:03:43
--- ----------------------------
--- Table structure for `class_list`
--- ----------------------------
-DROP TABLE IF EXISTS `class_list`;
-CREATE TABLE `class_list` (
-  `class_name` varchar(100) NOT NULL,
-  `enrollment_year` smallint(4) NOT NULL,
-  PRIMARY KEY (`class_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
--- ----------------------------
--- Records of class_list
--- ----------------------------
-INSERT INTO `class_list` VALUES ('其它', '0');
-
--- ----------------------------
--- Table structure for `reg_code`
--- ----------------------------
-CREATE TABLE `reg_code` (
-  `class_name` varchar(100) NOT NULL,
-  `reg_code` varchar(100) NOT NULL,
-  `remain_num` smallint(4) NOT NULL,
-  PRIMARY KEY (`class_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
--- ----------------------------
--- Records of reg_code
--- ----------------------------
-INSERT INTO `reg_code` VALUES ('其它', '', '0');

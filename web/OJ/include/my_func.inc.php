@@ -188,7 +188,7 @@ function canSeeSource($sid) {
     }
     /* 判断是否有查看权限 start */
     if (isset($OJ_AUTO_SHARE) && $OJ_AUTO_SHARE && isset($_SESSION['user_id'])){ // 已经AC该题目，可查看该题代码
-        $sql = "SELECT 1 FROM solution WHERE result=4 AND problem_id=$pid AND user_id='".$_SESSION['user_id']."'";
+        $sql = "SELECT 1 FROM solution WHERE result=4 AND problem_id='$pid' AND user_id='".$_SESSION['user_id']."'";
         $rrs = $mysqli->query($sql);
         $ok = !$irc && ($rrs->num_rows>0) ;
         $rrs->free();
@@ -291,9 +291,14 @@ function can_see_res_info($sid) {
 
 function get_problemset($pid){
     global $mysqli;
-    $sql="SELECT problemset FROM problem WHERE problem_id='$pid'";
-    $res=$mysqli->query($sql);
-    return $res->fetch_array()[0];
+    if(trim($pid)!=""){
+        $pid = intval($pid);
+        $sql="SELECT `problemset` FROM `problem` WHERE `problem_id`='$pid'";
+        return ($mysqli->query($sql)->fetch_array()[0]);
+    } else {
+        $sql="SELECT `set_name` FROM `problemset`";
+        return ($mysqli->query($sql)->fetch_all());
+    }
 }
 function get_order($group_name){
     global $mysqli;
@@ -364,14 +369,42 @@ function get_contests($type_list){ //返回一个二维数组给选择框等提�
     $result->free();
     return $view_contest;
 }
-function createPwd($seed, $len){
-    $password = strtoupper(substr(MD5($seed . rand(0, 9999999)), 0, $len));
-    while (is_numeric($password))  $password = strtoupper(substr(MD5($seed . rand(0, 9999999)), 0, $len));
-    str_replace("I", "X", $password);
-    str_replace("O", "Y", $password);
-    str_replace("0", "Z", $password);
-    str_replace("1", "W", $password);
+function createPwd($seed="", $len=16, $haveSpecialChar=true){
+    $password = "";
+    $codeAlphabet = "ABCDEFGHJKMNPQRSTUVWXYZ".$seed;
+    $codeAlphabet .= "abcdefghjkmnpqrstuvwxyz";
+    $codeAlphabet .= "23456789";
+    if($haveSpecialChar) $codeAlphabet .= "_!@#$%^&*";
+    $r=strlen($codeAlphabet)-1;
+    for($i=0;$i<$len;$i++){
+        $password .= $codeAlphabet[mt_rand(0,$r)];
+    }
     return $password;
 }
-
+function show_category($source,$size) {
+    //$size的值有 default、sm、lg、xl
+    $baseUrl = basename($_SERVER['SCRIPT_NAME'])=="problem_list.php" ? "problem_list.php?keyword=" : "problemset.php?search=";
+    $color_theme=Array("primary","secondary","success","warning","danger");
+    $category = array_unique(explode(" ",trim($source)));
+    sortByPinYin($category);
+    $html="";
+    foreach ($category as $cat) {
+        if(trim($cat)=="") continue;
+        $hash_num = hexdec(substr(md5($cat),0,7));
+        $source_theme = $color_theme[$hash_num%count($color_theme)];
+        if ($source_theme=="") $source_theme = $color_theme[0];
+        $temp = htmlentities($cat,ENT_QUOTES,'UTF-8');
+        $html .= "<a style='margin-top: 2px; margin-bottom: 2px;' title='".$temp."' class='am-badge am-badge-$source_theme am-text-$size am-radius' href='$baseUrl".urlencode($cat)."'>$temp</a>&nbsp;";
+    }
+    return $html;
+}
+function sortByPinYin(&$array){
+    foreach ($array as $key=>$value) {
+        $array[$key] = mb_convert_encoding($value, "GBK", "UTF-8");
+    }
+    sort($array);
+    foreach ($array as $key=>$value) {
+        $array[$key] = mb_convert_encoding($value, "UTF-8", "GBK");
+    }
+}
 ?>
