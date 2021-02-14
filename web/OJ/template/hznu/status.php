@@ -136,37 +136,8 @@ function generate_url($data){
       </div>
     </div>
       <!-- 搜索框 end -->
-      <!-- 页标签 start -->
-  <div class="am-g">
-    <ul class="am-pagination am-text-center">
-        <?php $link = generate_url(Array("page"=>"1"))?>
-        <li><a href="<?php echo $link ?>">Top</a></li>
-        <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
-      <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
-        <?php
-        //分页
-        $page_size=10;
-        $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
-        $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
-        for ($i=$page_start;$i<$page;$i++){
-            $link=generate_url(Array("page"=>"$i"));
-            echo "<li><a href=\"$link\">{$i}</a></li>";
-        }
-        $link=generate_url(Array("page"=>"$page"));
-        echo "<li class='am-active'><a href=\"$link\">{$page}</a></li>";
-        for ($i=$page+1;$i<=$page_end;$i++){
-          $link=generate_url(Array("page"=>"$i"));
-          echo "<li><a href=\"$link\">{$i}</a></li>";
-        }
-        if ($i <= $view_total_page){
-          $link=generate_url(Array("page"=>"$i"));
-          echo "<li><a href=\"$link\">{$i}</a></li>";
-        }
-        ?>
-        <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
-      <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
-    </ul>
-  </div>
+<!-- 页标签 start -->
+  <?php include "page_label.php";?> 
 <!-- 页标签 end -->
 <!-- 数据表格显示 start -->
     <div class="am-avg-md-1 well" >
@@ -182,7 +153,7 @@ function generate_url($data){
           <th><?php echo $MSG_LANG ?></th>
           <th><?php echo $MSG_CODE_LENGTH ?></th>
           <th><?php echo $MSG_SUBMIT_TIME ?></th>
-          <th><?php echo $MSG_JUDGER ?></th>
+          <!--<th><?php echo $MSG_JUDGER ?></th>-->
         </tr>
         </thead>
         <tbody>
@@ -202,34 +173,8 @@ function generate_url($data){
       </table>
     </div>
     <!-- 数据表格显示 end -->
-    <!-- 页标签 start -->
-  <div class="am-g">
-    <ul class="am-pagination am-text-center">
-        <?php $link = generate_url(Array("page"=>"1"))?>
-        <li><a href="<?php echo $link ?>">Top</a></li>
-        <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
-      <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
-        <?php
-        //分页
-        for ($i=$page_start;$i<$page;$i++){
-          $link=generate_url(Array("page"=>"$i"));
-          echo "<li><a href=\"$link\">{$i}</a></li>";
-        }
-        $link=generate_url(Array("page"=>"$page"));
-        echo "<li class='am-active'><a href=\"$link\">{$page}</a></li>";
-        for ($i=$page+1;$i<=$page_end;$i++){
-          $link=generate_url(Array("page"=>"$i"));
-          echo "<li><a href=\"$link\">{$i}</a></li>";
-        }
-        if ($i <= $view_total_page){
-          $link=generate_url(Array("page"=>"$i"));
-          echo "<li><a href=\"$link\">{$i}</a></li>";
-        }
-        ?>
-        <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
-      <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
-    </ul>
-  </div>
+<!-- 页标签 start -->
+  <?php include "page_label.php";?> 
 <!-- 页标签 end -->
   </div>
 <?php include "footer.php" ?>
