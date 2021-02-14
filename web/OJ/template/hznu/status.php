@@ -234,7 +234,7 @@ function generate_url($data){
     <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
       <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
     <?php
-        //分页 modified by XuHaiqing @2021.02.12
+        //分页 modified by XuHaiqing @2021.02.15
         $page_size=10;
         $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
         $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
