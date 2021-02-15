@@ -47,8 +47,8 @@
 0. 此版本HZNUOJ目前在Ubuntu20.04.1上跑过，可以正常运行。
 
 1. 下载源码
-   `git clone https://github.com/tiger2010/HZNUOJ.git`
-   或者直接访问`https://github.com/tiger2010/HZNUOJ` 下载zip包
+   `git clone https://github.com/lixin-wei/HZNUOJ.git`
+   或者直接访问`https://github.com/lixin-wei/HZNUOJ` 下载zip包
 
 2. 若已安装mysql，请修改`intall.sh` `judge.conf` `/web/OJ/include/static.php` 中的相应账户密码信息(默认为root/root)。若还未安装，请确保接下来安装mysql的过程中将用户名和密码都设成root。
 
