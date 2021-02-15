@@ -15,7 +15,7 @@
   $MSG_RANKLIST = " Ranklist";
   $MSG_CONTEST = " Contest";
   $MSG_RECENT_CONTEST = "Recent Contest";
-  $MSG_FAQ = "F.A.Qs";
+  $MSG_FAQ = "FAQ";
   $MSG_ACM_MAIL = "ACM Mail";
   $MSG_COURSE = "Course";
   $MSG_Assist = " Assistance";

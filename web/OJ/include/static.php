@@ -17,7 +17,6 @@
   static  $DB_VJPASS="root";
   static  $VJ_OPEN=false;
 
-
   static  $OJ_HOME="/OJ/";//OJ的首页地址
   static  $OJ_NAME="HZNUOJ";//OJ的名字，将取代页面标题等位置HZNUOJ字样。
   static  $OJ_ADMIN="root@localhost";//管理员email
@@ -26,11 +25,12 @@
   static  $OJ_LANG="en";//设置默认显示的语言，中文为cn，英文为en
   static  $OJ_SIM=true;//是否显示相似度检测的结果。
   static  $OJ_DICT=true;//是否启用在线英字典
-  static  $OJ_LANGMASK=717823; //用掩码表示的OJ接受的提交语言，可以被比赛设定覆盖。hustoj原版规则1mC 2mCPP 4mPascal 8mJava 16mRuby 32mBash 1008 for security reason to mask all other language  221184
+  static  $OJ_LANGMASK=786435; //用掩码表示的OJ接受的提交语言，可以被比赛设定覆盖。hustoj原版规则1mC 2mCPP 4mPascal 8mJava 16mRuby 32mBash 1008 for security reason to mask all other language  221184
                 //HZNUOJ规则 1开启 0关闭，各个语言从后往前排，在最高位补1，再二进制转成十进制变成掩码,语言顺序见/include/const.inc.php的$language_name数组
                 //1 1111111111111111111=1(524287D)=1048575 语言全开
                 //1 1101111001111111111=1(455679D)=979967 github上down下来默认JavaScript、Obj-C、FreeBasic不开
                 //1 0101111001111111111=1(193535D)=717823 为方便和hustoj对接，关闭18Python3；Python2、Python3可以通过系统配置切换，具体参看wiki/maintainer-manual.md
+  							  //=786435 只开C C++ python3
 							  //1 0000000000001000011=1(67D)=524355 只开C C++ python
 							  //试验了下最高位1不补好像也没问题
   static  $OJ_EDITE_AREA=true; //true: 是否启用高亮语法显示的提交界面，可以在线编程，无须IDE。
@@ -47,7 +47,7 @@
   static  $OJ_MEMPORT=11211;//memcached的端口
   static  $OJ_TEMPLATE="hznu";
   static  $OJ_LOGIN_MOD="hustoj";
-  static  $OJ_SHOW_DIFF=true;//是否显示WA的对比说明
+  static  $OJ_SHOW_DIFF=false;//是否显示WA的对比说明
   static  $OJ_TEST_RUN=false;//提交界面是否允许测试运行
   static  $OJ_BEIAN="";//如果有网站备案号，请填入备案号
   static $OJ_OPENID_PWD='8a367fe87b1e406ea8e94d7d508dcf01';
@@ -57,6 +57,7 @@
   static $LOGIN_DEFUNCT=false;
   static $VIDEO_SUBMIT_TIME=3;// can see video after
 
+  static  $MODIFY_NICK=false;//允许普通用户修改昵称，管理员和教师(班级="Teacher")不受此限制
   static  $OJ_REGISTER=true; //允许注册新用户
   static  $OJ_REG_NEED_CONFIRM="pwd"; //新注册用户模式，共四种模式
                                    //开放模式，值为"off"，注册无限制，账号注册后立即激活

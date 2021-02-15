@@ -28,7 +28,7 @@
  
   ?>
   <div class="am-g">
-    <script src="include/checksource.js"></script>
+ <!--   <script src="include/checksource.js"></script> -->
     <form id="submit_form" action="submit.php" method="post">
       <?php require_once "include/set_post_key.php" ?>
       <div class="am-u-md-10 am-u-md-centered" style="width:1000px;">

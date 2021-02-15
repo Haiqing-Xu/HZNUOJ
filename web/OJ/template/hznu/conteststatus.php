@@ -38,6 +38,13 @@ function generate_url($data){
   .pp{
     margin-top: 30px;
   }
+  .am-form-inline > .am-form-group {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .am-form-inline {
+    margin-bottom: 1.5rem;
+  }
 </style>
 
 <div class="am-container">
@@ -126,19 +133,26 @@ function generate_url($data){
         </form>
       </div>
     </div>
-      <!-- 搜索框 end -->
- <!-- 页标签 start -->
-  <div class="am-g">
-    <ul class="am-pagination am-text-center">
-    <?php $link = generate_url(Array("page"=>"1"))?>
-        <li><a href="<?php echo $link ?>">Top</a></li>
-        <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
+<!-- 搜索框 end -->
+
+<!-- 页标签 start -->
+<div class="am-g">
+  <ul class="am-pagination am-text-center">
+    <!--    <?php $link = generate_url(Array("page"=>"1"))?>
+        <li><a href="<?php echo $link ?>">Top</a></li> -->
+    <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
       <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
-        <?php
-        //分页
+    <?php
+        //分页 modified by XuHaiqing @2021.02.15
         $page_size=10;
         $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
         $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
+
+        if ($page_start>1){
+          $link = generate_url(Array("page"=>"1"));
+          echo "<li><a href=\"$link\">1</a></li>";
+        echo "&nbsp;...&nbsp;";}
+
         for ($i=$page_start;$i<$page;$i++){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
@@ -153,12 +167,26 @@ function generate_url($data){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
         }
-        ?>
+          
+        if ($i<$view_total_page-2){
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "&nbsp;...&nbsp;";
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+      elseif($i==$view_total_page-2){
+        $i=$view_total_page-1;
+      $link = generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+    ?>
         <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
       <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
-    </ul>
-  </div>
+  </ul>
+</div>
 <!-- 页标签 end -->
+
 <div class="am-avg-md-1 well">
   <table id="result-tab" class="am-table am-table-hover am-table-striped" >
     <thead>
@@ -172,35 +200,47 @@ function generate_url($data){
         <th><?php echo $MSG_LANG ?></th>
         <th><?php echo $MSG_CODE_LENGTH ?></th>
         <th><?php echo $MSG_SUBMIT_TIME ?></th>
-        <th><?php echo $MSG_JUDGER ?></th>
+  <!--  <th><?php echo $MSG_JUDGER ?></th> -->
       </tr>
     </thead>
     <tbody>
-      <?php
-                    foreach($view_status as $row){
-                      echo "<tr>";
-                            foreach($row as $table_cell){
-                                    echo "<td>";
-                                    echo $table_cell;
-                                    echo "</td>";
-                            }
+    <?php
+        foreach($view_status as $row){
+            echo "<tr>";
+            foreach($row as $key=>$table_cell){
+                if($key<9){
+                    echo "<td>";
+                    echo $table_cell;
+                    echo "</td>";
+                }
+            }
 
-                            echo "</tr>";
-                    }
-            ?>
+            echo "</tr>";
+        }
+    ?>
     </tbody>
   </table>
 </div>
 </div>
-   <!-- 页标签 start -->
-  <div class="am-g">
-    <ul class="am-pagination am-text-center">
-        <?php $link = generate_url(Array("page"=>"1"))?>
-        <li><a href="<?php echo $link ?>">Top</a></li>
-        <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
+
+ <!-- 页标签 start -->
+<div class="am-g">
+  <ul class="am-pagination am-text-center">
+    <!--    <?php $link = generate_url(Array("page"=>"1"))?>
+        <li><a href="<?php echo $link ?>">Top</a></li> -->
+    <?php $link = generate_url(Array("page"=>max($page-1, 1)))?>
       <li><a href="<?php echo $link ?>">&laquo; Prev</a></li>
-        <?php
-        //分页
+    <?php
+        //分页 modified by XuHaiqing @2021.02.15
+        $page_size=10;
+        $page_start=max(ceil($page/$page_size-1)*$page_size+1,1);
+        $page_end=min(ceil($page/$page_size-1)*$page_size+$page_size,$view_total_page);
+
+        if ($page_start>1){
+          $link = generate_url(Array("page"=>"1"));
+          echo "<li><a href=\"$link\">1</a></li>";
+        echo "&nbsp;...&nbsp;";}
+
         for ($i=$page_start;$i<$page;$i++){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
@@ -215,12 +255,26 @@ function generate_url($data){
           $link=generate_url(Array("page"=>"$i"));
           echo "<li><a href=\"$link\">{$i}</a></li>";
         }
-        ?>
+          
+        if ($i<$view_total_page-2){
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "&nbsp;...&nbsp;";
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+      elseif($i==$view_total_page-2){
+        $i=$view_total_page-1;
+      $link = generate_url(Array("page"=>"$i"));
+          echo "<li><a href=\"$link\">{$i}</a></li>";
+          $link = generate_url(Array("page"=>"$view_total_page"));
+          echo "<li><a href=\"$link\">{$view_total_page}</a></li>";
+        }
+    ?>
         <?php $link = generate_url(Array("page"=>min($page+1,intval($view_total_page)))) ?>
       <li><a href="<?php echo $link ?>">Next &raquo;</a></li>
-    </ul>
-  </div>
+  </ul>
+</div>
 <!-- 页标签 end -->
+
 <?php include "footer.php" ?>
 <script>
 var i = 0;

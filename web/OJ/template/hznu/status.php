@@ -36,8 +36,8 @@ function generate_url($data){
 ?>
   <style>
     .am-form-inline > .am-form-group {
-      margin-left: 10px;
-      margin-right: 10px;
+      margin-left: 5px;
+      margin-right: 5px;
     }
     .am-form-inline {
       margin-bottom: 1.5rem;
@@ -110,7 +110,7 @@ function generate_url($data){
                 ?>
             </select>
             <span class="am-form-caret"></span>
-      </div>
+          </div>
           <?php if ($OJ_SIM) { ?>
           <div class="am-form-group">
             <label for="sim"><?php echo $MSG_SIM ?>:</label>
@@ -128,7 +128,7 @@ function generate_url($data){
                 ?>
             </select>
             <span class="am-form-caret"></span>
-          </div> 
+          </div>
           <?php } ?>
           <button type="submit" class="am-btn am-btn-secondary"><span class='am-icon-filter'></span> <?php echo $MSG_FILTER ?></button>
           &nbsp;&nbsp;<button type="submit" class="am-btn am-btn-default"><?php echo $MSG_RESET ?></button>
@@ -136,8 +136,7 @@ function generate_url($data){
       </div>
     </div>
       <!-- 搜索框 end -->
-
-<!-- 页标签 start -->
+ <!-- 页标签 start -->
 <div class="am-g">
   <ul class="am-pagination am-text-center">
     <!--    <?php $link = generate_url(Array("page"=>"1"))?>
@@ -188,10 +187,9 @@ function generate_url($data){
   </ul>
 </div>
 <!-- 页标签 end -->
-
 <!-- 数据表格显示 start -->
-    <div class="am-avg-md-1 well">
-      <table class="am-table am-table-hover  am-table-striped">
+    <div class="am-avg-md-1 well" >
+      <table id="result-tab" class="am-table am-table-hover am-table-striped am-text-nowrap">
         <thead>
         <tr>
           <th><?php echo $MSG_RUNID ?></th>
@@ -203,20 +201,20 @@ function generate_url($data){
           <th><?php echo $MSG_LANG ?></th>
           <th><?php echo $MSG_CODE_LENGTH ?></th>
           <th><?php echo $MSG_SUBMIT_TIME ?></th>
-          <!--<th><?php echo $MSG_JUDGER ?></th> -->
+     <!--     <th><?php echo $MSG_JUDGER ?></th> -->
         </tr>
         </thead>
         <tbody>
         <?php
         foreach($view_status as $row){
             echo "<tr>";
-            foreach($row as $key =>$table_cell){
-              if($key<9){
+	    	foreach($row as $key=>$table_cell){
+			if($key<9){
                 echo "<td>";
                 echo $table_cell;
-                echo "</td>";
-              }
-            }
+				echo "</td>";
+			}
+        	}
             
             echo "</tr>";
         }
@@ -277,7 +275,9 @@ function generate_url($data){
   </ul>
 </div>
 <!-- 页标签 end -->
-  </div>
+
+</div>
+
 <?php include "footer.php" ?>
 <script>
 var i = 0;

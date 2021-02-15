@@ -96,15 +96,42 @@
         <ul class="am-nav am-nav-pills am-topbar-nav">
 
         <?php $page_name=basename($_SERVER['SCRIPT_NAME']);?>
-          <!-- Contest部分 start -->
+
+        <!-- ProblemSet部分 start -->
+          <li <?php
+          if($page_name=="problemset.php" || $page_name=="problem.php") {
+            echo "class='am-active'";
+          }
+          ?>><a href="./problemset.php"><?php echo $MSG_PROBLEMSET ?></a></li>
+        <!-- ProblemSet部分 end -->
+
+        <!-- status部分 start -->
+          <li <?php
+          if($page_name=="status.php") {
+            echo "class='am-active'";
+          }
+          ?>><a href="./status.php"><?php echo $MSG_STATUS ?></a></li>
+        <!-- status部分 end -->
+
+        <!-- ranklist部分 start -->
+          <li <?php
+          if($page_name=="ranklist.php") {
+            echo "class='am-active'";
+          }
+          ?>><a href="./ranklist.php"><?php echo $MSG_RANKLIST ?></a></li>
+        <!-- ranklist部分 end -->
+
+        <!-- Contest部分 start -->
           <li <?php
           if($page_name=="contest.php" || $page_name=="recent-contest.php") {
               echo "class='am-active'";
           }
           ?>><a href="./contest.php"><?php echo $MSG_CONTEST ?></a></li>
-          <!-- Contest部分 end -->
+
+        <!-- Contest部分 end -->
+
           <?php 
-        if (!isset($_SESSION['contest_id'])) { ?>
+          if (!isset($_SESSION['contest_id'])) { ?>
            <!-- course部分 start -->
            <li <?php
           if($page_name=="course.php") {
@@ -119,32 +146,9 @@
             echo "class='am-active'";
           }
           ?>><a href="./category.php"><?php echo $MSG_Source ?></a></li>
-          <!-- category部分 end -->
+          <!-- category部分 end -->     
 
-          <!-- status部分 start -->
-          <li <?php
-          if($page_name=="status.php") {
-            echo "class='am-active'";
-          }
-          ?>><a href="./status.php"><?php echo $MSG_STATUS ?></a></li>
-          <!-- status部分 end -->
-          
-          <!-- ranklist部分 start -->
-          <li <?php
-          if($page_name=="ranklist.php") {
-            echo "class='am-active'";
-          }
-          ?>><a href="./ranklist.php"><?php echo $MSG_RANKLIST ?></a></li>
-          <!-- ranklist部分 end -->
-          <!-- ProblemSet部分 start -->
-          <li <?php
-          if($page_name=="problemset.php" || $page_name=="problem.php") {
-            echo "class='am-active'";
-          }
-          ?>><a href="./problemset.php"><?php echo $MSG_PROBLEMSET ?></a></li>
-          <!-- ProblemSet部分 end -->
           <?php } ?>
-
 
           <li <?php if(basename($_SERVER['SCRIPT_NAME'])=="faqs.php"){
 			  echo "class='am-active'";}
