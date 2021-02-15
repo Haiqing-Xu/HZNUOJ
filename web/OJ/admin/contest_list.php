@@ -285,11 +285,11 @@ while ($row=$result->fetch_object()){
     if (HAS_PRI("inner_function")){
       echo "<td style='vertical-align:middle;text-align: center'><a class='btn btn-primary' href=\"problem_export_xml.php?cid=$row->contest_id&getkey=".$_SESSION['getkey']."\">$MSG_EXPORT</a></td>\n";
     } else echo "<td style='vertical-align:middle;text-align: center'><span class='btn btn-primary' disabled>$MSG_EXPORT</span></td>\n";
-    if (isset($_SESSION['m'.$contest_id])||HAS_PRI("inner_function")){
+  /*  if (isset($_SESSION['m'.$contest_id])||HAS_PRI("inner_function")){
       echo "<td style='vertical-align:middle;text-align: center'><a class='btn btn-primary' href=\"../export_contest_code.php?cid=$row->contest_id&getkey=".$_SESSION['getkey']."\">$MSG_Logs</a></td>\n";
     } else echo "<td style='vertical-align:middle;text-align: center'><span class='btn btn-primary' disabled>$MSG_Logs</span></td>\n";
     
-
+	*/
     echo "</tr>\n";
   }
 ?>
