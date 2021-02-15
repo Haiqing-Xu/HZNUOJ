@@ -59,7 +59,7 @@
    admin@ubuntu16:~$ cd HZNUOJ/judger/install
    admin@ubuntu16:~/HZNUOJ/judger/install$ sudo bash install.sh
    ```
-4. ## MySQL Configuration
+4. MySQL Configuration
 
 Remember to increase `max_connections`, `thread_stack` and `max_heap_table_size` in `my.cnf`:
 
