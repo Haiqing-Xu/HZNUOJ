@@ -59,8 +59,19 @@
    admin@ubuntu16:~$ cd HZNUOJ/judger/install
    admin@ubuntu16:~/HZNUOJ/judger/install$ sudo bash install.sh
    ```
+4. MySQL Configuration
 
-4. 安装完成后访问localhost、服务器IP或相应域名即可。
+Remember to increase `max_connections`, `thread_stack` and `max_heap_table_size` in `my.cnf`:
+
+    max_connections = 1000
+    thread_stack = 640K
+    max_heap_table_size = 1024M
+
+Also change default character set to UTF-8:
+
+    default-character-set = utf8
+
+5. 安装完成后访问localhost、服务器IP或相应域名即可。
 
 ## 原理
 
