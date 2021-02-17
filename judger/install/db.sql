@@ -15,7 +15,7 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE Database jol CHARACTER SET utf8 COLLATE utf8_general_ci;
+CREATE DATABASE `jol` /*!40100 COLLATE 'utf8_general_ci' */;
 use jol;
 
 DROP TABLE IF EXISTS `contest_discuss`;
@@ -72,33 +72,34 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `contest`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `contest` (
-  `contest_id` int(11) NOT NULL AUTO_INCREMENT,
+  `contest_id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(255) DEFAULT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   `defunct` char(1) NOT NULL DEFAULT 'N',
   `description` text,
-  `private` tinyint(4) NOT NULL DEFAULT '0',
-  `langmask` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'bits for LANG to mask',
+  `private` tinyint NOT NULL DEFAULT '0',
+  `langmask` int unsigned NOT NULL DEFAULT '0' COMMENT 'bits for LANG to mask',
   `password` char(16) NOT NULL DEFAULT '',
   `user_id` varchar(48) NOT NULL DEFAULT 'admin',
   `user_limit` char(1) NOT NULL,
   `defunct_TA` char(1) NOT NULL,
   `open_source` char(1) NOT NULL,
-  `lock_time` int(11) DEFAULT NULL,
-  `unlock` tinyint(4) DEFAULT '1',
-  `first_prize` int(11) DEFAULT '0',
-  `second_prize` int(11) DEFAULT '0',
-  `third_prize` int(11) DEFAULT '0',
-  `practice` tinyint(4) DEFAULT '0',
-  `isTop` tinyint(1) NOT NULL DEFAULT '0';
+  `lock_time` int DEFAULT NULL,
+  `unlock` tinyint DEFAULT '1',
+  `first_prize` int DEFAULT '0',
+  `second_prize` int DEFAULT '0',
+  `third_prize` int DEFAULT '0',
+  `practice` tinyint DEFAULT NULL,
+  `isTop` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`contest_id`),
   KEY `contest_id` (`contest_id`,`defunct`,`private`,`defunct_TA`,`open_source`) USING BTREE,
   KEY `running_contest` (`start_time`,`end_time`,`practice`)
-) ENGINE=MyISAM AUTO_INCREMENT=1001 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 
 --
 -- Dumping data for table `contest`
