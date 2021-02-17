@@ -61,8 +61,9 @@
    ```
 4. MySQL Configuration
 
-Remember to increase `max_connections`, `thread_stack` and `max_heap_table_size` in `my.cnf`:
-
+Remember to increase `max_connections`, `thread_stack` and `max_heap_table_size` in `/etc/mysql/conf.d/mysql.cnf`:
+#### Added by me #####
+[mysqld]
     max_connections = 1000
     thread_stack = 640K
     max_heap_table_size = 1024M
