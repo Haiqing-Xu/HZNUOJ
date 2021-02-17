@@ -15,7 +15,7 @@ DBPASS=root
 
 #try install tools
 #deps="make flex g++ clang libmysql++-dev php7.0 apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-mbstring php7.0-gd php7.0-cli php-xml mono-mcs subversion libexplain-dev"
-deps="make flex g++ libmysql++-dev php7.4 apache2 libapache2-mod-php7.4 php7.4-mysql php7.4-mbstring php7.4-gd php7.4-cli php-xml mono-mcs subversion libexplain-dev"
+deps="make flex g++ default-libmysqlclient-dev php7.3 apache2 libapache2-mod-php7.3 php7.3-mysql php7.3-mbstring php7.3-gd php7.3-cli php-xml mono-mcs subversion libexplain-dev"
 apt update
 apt -y install $deps
 #apt purge -y --auto-remove $buildDeps
@@ -70,8 +70,8 @@ cp java0.policy  judge.conf /home/judge/etc
 chown -R judge /home/judge
 chgrp -R $APACHEUSER /home/judge/data
 chgrp -R root /home/judge/etc /home/judge/run?
-chmod 775 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
-chmod 470 /home/judge/etc/judge.conf
+chmod 575 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
+chmod 570 /home/judge/etc/judge.conf
 
 #boot up judged
 cp judged /etc/init.d/judged

@@ -64,8 +64,8 @@
 Remember to increase `max_connections`, `thread_stack` and `max_heap_table_size` in `/etc/mysql/conf.d/mysql.cnf`:
 
 `[mysqld]
-    max_connections = 1000
-    thread_stack = 640K
+    max_connections = 1000  
+    thread_stack = 640K  
     max_heap_table_size = 1024M`
 
 Also change default character set to UTF-8:
