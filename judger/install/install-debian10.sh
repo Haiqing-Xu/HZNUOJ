@@ -13,9 +13,11 @@ DBUSER=root
 DBPASS=root
 
 
-#try install tools
+#try install tools, modify the mysql deb's link if necessary
+wget -P ../../../ https://dev.mysql.com/get/mysql-apt-config_0.8.16-1_all.deb
+apt install ../../../mysql-apt-config_0.8.16-1_all.deb
 #deps="make flex g++ clang libmysql++-dev php7.0 apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-mbstring php7.0-gd php7.0-cli php-xml mono-mcs subversion libexplain-dev"
-deps="make flex g++ default-libmysqlclient-dev php7.3 apache2 libapache2-mod-php7.3 php7.3-mysql php7.3-mbstring php7.3-gd php7.3-cli php-xml mono-mcs subversion libexplain-dev"
+deps="make flex g++ default-libmysqlclient-dev php7.3 apache2 mysql-server libapache2-mod-php7.3 php7.3-mysql php7.3-mbstring php7.3-gd php7.3-cli php-xml mono-mcs subversion libexplain-dev"
 apt update
 apt -y install $deps
 #apt purge -y --auto-remove $buildDeps
@@ -37,6 +39,8 @@ cd ../../..
 #install web and db
 rm -R $WEBBASE
 cp -R HZNUOJ $WEBBASE
+chgrp -R $APACHEUSER $WEBBASE/web/OJ/
+chmod 750 $WEBBASE/web/OJ/
 
 #create upload dir
 mkdir -p $WEBBASE/web/OJ/upload
@@ -74,7 +78,7 @@ chmod 575 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
 chmod 570 /home/judge/etc/judge.conf
 
 #boot up judged
-cp judged /etc/init.d/judged
+cp /usr/bin/judged /etc/init.d/judged
 chmod +x  /etc/init.d/judged
 ln -s /etc/init.d/judged /etc/rc3.d/S93judged
 ln -s /etc/init.d/judged /etc/rc2.d/S93judged

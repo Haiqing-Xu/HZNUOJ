@@ -37,6 +37,8 @@ cd ../../..
 #install web and db
 rm -R $WEBBASE
 cp -R HZNUOJ $WEBBASE
+chgrp -R $APACHEUSER $WEBBASE/web/OJ/
+chmod 750 $WEBBASE/web/OJ/
 
 #create upload dir
 mkdir -p $WEBBASE/web/OJ/upload
@@ -74,7 +76,7 @@ chmod 575 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
 chmod 570 /home/judge/etc/judge.conf
 
 #boot up judged
-cp judged /etc/init.d/judged
+cp /usr/bin/judged /etc/init.d/judged
 chmod +x  /etc/init.d/judged
 ln -s /etc/init.d/judged /etc/rc3.d/S93judged
 ln -s /etc/init.d/judged /etc/rc2.d/S93judged
