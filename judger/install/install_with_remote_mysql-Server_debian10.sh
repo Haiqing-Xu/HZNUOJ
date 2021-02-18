@@ -16,10 +16,10 @@ DBPASS=root
 #try install tools
 #deps="make flex g++ clang libmysql++-dev php7.0 apache2 mysql-server libapache2-mod-php7.0 php7.0-mysql php7.0-mbstring php7.0-gd php7.0-cli php-xml mono-mcs subversion libexplain-dev"
 deps="make flex g++ default-libmysqlclient-dev php7.3 apache2 libapache2-mod-php7.3 php7.3-mysql php7.3-mbstring php7.3-gd php7.3-cli php-xml mono-mcs subversion libexplain-dev"
-apt update
-apt -y install $deps
-#apt purge -y --auto-remove $buildDeps
-apt clean
+apt-get update
+apt-get -y install $deps
+apt-get purge -y --auto-remove $buildDeps
+apt-get clean
 
 #/etc/init.d/mysql start
 
@@ -72,7 +72,7 @@ cp java0.policy  judge.conf /home/judge/etc
 chown -R judge /home/judge
 chgrp -R $APACHEUSER /home/judge/data
 chgrp -R root /home/judge/etc /home/judge/run?
-chmod 775 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
+chmod 771 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
 chmod 570 /home/judge/etc/judge.conf
 
 #boot up judged
@@ -85,10 +85,9 @@ judged
 # change apache server root to /var/www/web
 sed -i -e 's/\/var\/www\/html/\/var\/www\/web/g' /etc/apache2/sites-available/000-default.conf
 /etc/init.d/apache2 restart
-
+echo ""
 echo "Install HZNUOJ successfuly!"
 echo "Please modify your database account for HZNUOJ in:"
 echo "/var/www/web/OJ/include/static.php"
 echo "/home/judge/etc/judge.conf"
-echo ""
 echo "Enjoy ;)"

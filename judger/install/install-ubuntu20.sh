@@ -74,7 +74,7 @@ cp java0.policy  judge.conf /home/judge/etc
 chown -R judge /home/judge
 chgrp -R $APACHEUSER /home/judge/data
 chgrp -R root /home/judge/etc /home/judge/run?
-chmod 775 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
+chmod 771 -R /home/judge /home/judge/data /home/judge/etc /home/judge/run?
 chmod 570 /home/judge/etc/judge.conf
 
 #boot up judged
